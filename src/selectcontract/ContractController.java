@@ -4,6 +4,9 @@
  */
 package selectcontract;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author ryandickson
@@ -17,16 +20,24 @@ class ContractController {
         this.theView.addPrevListener(new PrevButtonListener());
         this.theView.addBidListener(new BidButtonListener());
         this.theView.addNextListener(new NextButtonListener());
-        
+
         setUpDisplay();
     }
     
     private void setUpDisplay(){
         try {
-            theView.setContractID("N/A");
-            theView.setDestCity("N/A");
-            theView.setOriginCity("N/A");
-            theView.setOrderItem("N/A");
+            if(theModel.foundContracts()){
+                Contract c = theModel.getTheContract();
+                theView.setContractID(c.getContractID());
+                theView.setDestCity(c.getDestCity());
+                theView.setOriginCity(c.getOriginCity());
+                theView.setOrderItem(c.getOrderItem());
+            } else {
+                theView.setContractID("???");
+                theView.setDestCity("???");
+                theView.setOriginCity("???");
+                theView.setOrderItem("???");
+            }
         } catch (Error ex){
             System.out.println(ex);
             theView.displayErrorMessage(
