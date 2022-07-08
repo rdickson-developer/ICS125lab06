@@ -15,9 +15,19 @@ public class Contract {
     private String destCity;
     private String orderItem;
     
+    public static final int NUMBER_OF_CONTRACT_ATTRIBUTES = 4;
+    public static final int INDEX_OF_CONTRACT_ID = 0;
+    public static final int INDEX_OF_ORIGIN_CITY = 1;
+    public static final int INDEX_OF_DEST_CITY = 2;
+    public static final int INDEX_OF_ORDER_ITEM = 3;
+    
     // Constructor
-    Contract(String contractID, String originCity, String destCity, String orderItem){
-        
+    Contract(String contId, String orgCity, String dstCity, String ordItem){
+        contractID = contId;
+        originCity = orgCity;
+        destCity = dstCity;
+        orderItem = ordItem;
+
     }
     
     // Getters

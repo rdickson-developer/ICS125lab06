@@ -195,6 +195,7 @@ public class ContractView extends javax.swing.JFrame {
     }
     void setOriginCity(String originCity){
         jLabelOriginCity.setText(originCity);
+        
     }
     void setDestCity(String destCity){
         jLabelDestCity.setText(destCity);
@@ -209,6 +210,19 @@ public class ContractView extends javax.swing.JFrame {
     // Update number of contracts text on JPanel
     void updateContractViewPanel(int currentContractNum, int contractCount){
         setContractCount((1+currentContractNum) + " of " + contractCount + " contracts.");
+        
+        if(currentContractNum == 0){
+            jPrevButton.setEnabled(false);
+        } else {
+            jPrevButton.setEnabled(true);
+        }
+        if(currentContractNum == contractCount - 1){
+            jNextButton.setEnabled(false);
+        }else {
+            jNextButton.setEnabled(true);
+        }
+    
+    
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

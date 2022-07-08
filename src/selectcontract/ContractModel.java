@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author ryandickson
  */
 public class ContractModel {
-
+    
     private ArrayList<Contract> theContracts;
     private int contractCounter;
     
@@ -23,7 +23,7 @@ public class ContractModel {
         theContracts = new ArrayList<>();
         
          try {
-            String filename = "/Users/ryandickson/NetBeansProjects/SelectContract/src/selectcontract/contracts.txt";
+            String filename = "src/selectcontract/contracts.txt";
             FileReader fileReader = new FileReader(filename);
             
             // Always wrap FileRader in BufferedReader.
@@ -35,12 +35,12 @@ public class ContractModel {
                 
                 // Split the line containing contract information into four 
                 // elemnets in a String array named tokens
-                String[] tokens = line.split(",", 4);
+                String[] tokens = line.split(",", Contract.NUMBER_OF_CONTRACT_ATTRIBUTES);
                 
-                String contractID = tokens[0];
-                String originCity = tokens[1];
-                String destCity = tokens[2];
-                String orderItem = tokens[3];
+                String contractID = tokens[Contract.INDEX_OF_CONTRACT_ID];
+                String originCity = tokens[Contract.INDEX_OF_ORIGIN_CITY];
+                String destCity = tokens[Contract.INDEX_OF_DEST_CITY];
+                String orderItem = tokens[Contract.INDEX_OF_ORDER_ITEM];
                 
                 // Construc a new contract object with the token information
                 Contract dataContract = new Contract(contractID

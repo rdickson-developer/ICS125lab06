@@ -17,6 +17,9 @@ class ContractController {
     private ContractModel theModel;
 
     ContractController(ContractView theView, ContractModel theModel) {
+        this.theView = theView;
+        this.theModel = theModel;
+        
         this.theView.addPrevListener(new PrevButtonListener());
         this.theView.addBidListener(new BidButtonListener());
         this.theView.addNextListener(new NextButtonListener());
@@ -27,11 +30,14 @@ class ContractController {
     private void setUpDisplay(){
         try {
             if(theModel.foundContracts()){
+
                 Contract c = theModel.getTheContract();
+                
                 theView.setContractID(c.getContractID());
                 theView.setDestCity(c.getDestCity());
                 theView.setOriginCity(c.getOriginCity());
                 theView.setOrderItem(c.getOrderItem());
+                
             } else {
                 theView.setContractID("???");
                 theView.setDestCity("???");
@@ -41,8 +47,11 @@ class ContractController {
         } catch (Error ex){
             System.out.println(ex);
             theView.displayErrorMessage(
-            "Error: There was a problem setting the contract. \n");
+            "Error: There was a problem setting the contract.\n"
+            + "             Contract number: " + theModel.getTheContract());
+            
         }
+        theView.updateContractViewPanel(theModel.getCurrentContractNum(),theModel.getContractCount());
     }
     
     class PrevButtonListener implements ActionListener {
@@ -51,7 +60,7 @@ class ContractController {
             // IF the currently dispaled contract is the first in the list
             // of contract, then you cannont view a non-existent contract 
             // behind it.
-            if(theModel.getCurrentContractNum()==0){
+            if(theModel.getCurrentContractNum()== 0){
                 return;
             }
             
@@ -70,20 +79,20 @@ class ContractController {
     class NextButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e){
-            // IF the currently dispaled contract is the first in the list
-            // of contract, then you cannont view a non-existent contract 
-            // behind it.
-            if(theModel.getCurrentContractNum()==0){
+            // IF the currently displayed contract is the last in the list
+            // of contracts, then you cannont view a non-existent contract 
+            // after it.
+            if(theModel.getCurrentContractNum()== theModel.getContractCount()-1){
                 return;
             }
             
             try {
-                // Retrieve the contract behind the currently displayed contract.
-                theModel.prevContract();
+                // Retrieve the contract ahead the currently displayed contract.
+                theModel.nextContract();
             } catch (Exception ex){
                 System.out.println(ex);
                 theView.displayErrorMessage(
-                "Error: There is a problem setting a previous contract.");
+                "Error: There is a problem setting a next contract.");
             }
             setUpDisplay();
         }
