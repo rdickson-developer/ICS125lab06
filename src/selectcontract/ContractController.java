@@ -6,6 +6,8 @@ package selectcontract;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  *
@@ -23,7 +25,10 @@ class ContractController {
         this.theView.addPrevListener(new PrevButtonListener());
         this.theView.addBidListener(new BidButtonListener());
         this.theView.addNextListener(new NextButtonListener());
-
+        
+        this.theView.addComboBoxListener(new ComboListener());
+        
+        theView.setOriginCityList(theModel.getOriginCityList());
         setUpDisplay();
     }
     
@@ -101,23 +106,31 @@ class ContractController {
     class BidButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e){
-            // IF the currently dispaled contract is the first in the list
-            // of contract, then you cannont view a non-existent contract 
-            // behind it.
-            if(theModel.getCurrentContractNum()==0){
-                return;
-            }
-            
-            try {
-                // Retrieve the contract behind the currently displayed contract.
-                theModel.prevContract();
-            } catch (Exception ex){
+            try{
+                ConfirmBid cb;
+                cb = new ConfirmBid(theView, true, theModel.getTheContract());
+                cb.setLocationRelativeTo(null);
+                cb.setVisible(true);
+            } catch (Exception ex) {
+                // Provide an error message to the console output.
                 System.out.println(ex);
                 theView.displayErrorMessage(
-                "Error: There is a problem setting a previous contract.");
-            }
-            setUpDisplay();
-        }
-    }
+                "Error: The numbers entered must be integers.");
+            } // end catch
+        } // end actionerPerformed
+    } // end BidButtonListener
+    
+    class ComboListener implements ItemListener {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            System.out.println(e.getItem().toString());
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String selectedCity = e.getItem().toString();
+                System.out.println(selectedCity);
+                theModel.updateContractList(selectedCity);
+                setUpDisplay();
+            } // end if
+        } // end itemSTateChanged
+    } // end CombListener
     
 }

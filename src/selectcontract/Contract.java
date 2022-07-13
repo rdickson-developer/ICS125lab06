@@ -45,4 +45,13 @@ public class Contract {
     public String getOrderItem(){
         return orderItem;
     }
+
+    // Class methods
+    // return true if city matches originCity
+    boolean contains(String city) {
+        if(city == originCity){
+            return true;
+        }
+        return false;
+    }
 }

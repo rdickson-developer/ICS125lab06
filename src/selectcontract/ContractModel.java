@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  *
@@ -18,9 +20,14 @@ public class ContractModel {
     private ArrayList<Contract> theContracts;
     private int contractCounter;
     
+    private ArrayList<Contract> theContractsAll;
+    private SortedSet<String> originCityList;
+    
     public ContractModel() {
         contractCounter = 0;
         theContracts = new ArrayList<>();
+        
+        originCityList = new TreeSet<>();
         
          try {
             String filename = "src/selectcontract/contracts.txt";
@@ -49,8 +56,13 @@ public class ContractModel {
                 , orderItem);
                 
                 // add this new contract object to the arraylist
-                theContracts.add(dataContract); 
+                theContracts.add(dataContract);
+                
+                originCityList.add(originCity);
             }
+            
+            theContractsAll = new ArrayList<>(theContracts);
+            originCityList.add("All");
             
             // Always close files.
             fileReader.close();
@@ -88,5 +100,19 @@ public class ContractModel {
         if(contractCounter > 0){
             contractCounter--;
         }
+    }
+    
+    public String[] getOriginCityList(){
+        String[] a;
+        a = originCityList.toArray(new String[originCityList.size()]);
+        return a;
+    }
+    
+    public void updateContractList(String city){
+        theContracts = new ArrayList<>(theContractsAll);
+        if(city != "All"){
+            theContracts.removeIf(s -> !s.contains(city));
+        }
+        contractCounter = 0;
     }
 }
